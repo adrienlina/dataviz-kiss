@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import Map, {GoogleApiWrapper} from 'google-maps-react';
+import Map, { GoogleApiWrapper} from 'google-maps-react';
+import Marker from './imports/Marker.js';
 
 export class App extends React.Component {
   constructor(props, context) {
@@ -14,7 +15,13 @@ export class App extends React.Component {
     return (
         <Map
           google={this.props.google}
-        />
+          center={{lat: 48.8828993, lng: 2.320023}}
+        >
+          <Marker
+            title={'Sicara'}
+            name={'Sicara'}
+            position={{lat: 48.8828993, lng: 2.320023}} />
+        </Map>
     );
   }
 }
