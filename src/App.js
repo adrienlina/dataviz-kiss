@@ -1,21 +1,28 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { PropTypes } from 'react';
+import Map, {GoogleApiWrapper} from 'google-maps-react';
 
-class App extends Component {
+export class App extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      places: [],
+      pagination: null
+    };
+  }
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+        <Map
+          google={this.props.google}
+        />
     );
   }
 }
 
-export default App;
+App.propTypes = {
+  google: PropTypes.object,
+};
+
+export default GoogleApiWrapper({
+  apiKey: 'theAPIkey',
+})(App);
