@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Map, { GoogleApiWrapper, InfoWindow } from 'google-maps-react';
 import request from 'superagent';
-import Marker from './imports/Marker.js';
+import Marker from '../imports/Marker.js';
 
 const sicara = { lat: 48.8828993, lng: 2.320023 };
 
-export class App extends React.Component {
+export class MapContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
 
@@ -86,10 +86,10 @@ export class App extends React.Component {
   }
 }
 
-App.propTypes = {
+MapContainer.propTypes = {
   google: PropTypes.object,
 };
 
 export default GoogleApiWrapper({
-  apiKey: 'yourToken',
-})(App);
+  apiKey: 'AIzaSyB3ULd090KTq_JT3_KYxqcD6bNYkLBdUOM',
+})(MapContainer);

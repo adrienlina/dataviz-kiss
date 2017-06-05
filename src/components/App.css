@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+}
+
+.menu {
+  min-width: 20%;
+  max-width: 33%;
+  height: 100%;
+  background: #404040;
+  color: #D6D6D6;
+  border-right: 2px solid #D6D6D6;
+  padding: 0px 10px 10px 15px;
+}
+
+.menu ul {
+  flex: 1;
+  font-size: 1.2em;
+  color: color(#D6D6D6 contrast(60%));
+  text-decoration: none;
+}
+
+.menu ul li {
+  margin-bottom: 0.4em;
+  list-style-type: square;
+}
