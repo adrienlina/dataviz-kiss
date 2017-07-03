@@ -1,6 +1,7 @@
 import os
 import csv
 
+import requests
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
@@ -35,6 +36,7 @@ def upload_file():
 
     filename = secure_filename(file.filename)
     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
     return 'Ok', 200
 
 
@@ -44,16 +46,32 @@ def markers_info(filename):
         dialect = csv.Sniffer().sniff(csvfile.read(1024))
         csvfile.seek(0)
         reader = csv.reader(csvfile, dialect)
-        markers = [{
-            'name': row[0],
-            'title': row[1],
-            'position': {
-                'lat': row[2],
-                'lng': row[3]
-            },
-        } for index, row in enumerate(reader) if index > 0]
+        data = list(reader)[1:]
 
-    return jsonify(markers)
+    processed_places = []
+    for row in data:
+        google_places_results = requests.get(
+            'https://maps.googleapis.com/maps/api/place/textsearch/json?' +
+            'query=%s&key=AIzaSyB3ULd090KTq_JT3_KYxqcD6bNYkLBdUOM' % row[1]
+            ).json()
+
+        try:
+            location_best_guess = google_places_results['results'][0]['geometry']['location']
+            position_best_guess = {
+                'lat': location_best_guess['lat'],
+                'lng': location_best_guess['lng'],
+            }
+
+            place = {
+                'title': row[0],
+                'position': position_best_guess
+            }
+
+            processed_places.append(place)
+        except (KeyError, IndexError):
+            pass
+
+    return jsonify(processed_places)
 
 
 if __name__ == '__main__':
