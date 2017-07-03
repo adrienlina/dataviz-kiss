@@ -1,23 +1,51 @@
 import React from 'react';
-import Map from './Map';
+import request from 'superagent';
 
-import styles from './App.css';
+import Map from './Map';
+import UploadForm from './UploadForm';
+import environment from '../helpers/environment'
+
+import './App.css';
 
 export class App extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      markers: [],
+      center: null,
+    };
+
+    this.onUpload = this.onUpload.bind(this);
+  }
+
+  onUpload(file) {
+    request.get(`${environment.backend}/markers/${file.name}`)
+    .then(response => {
+      if (response.body.length) {
+        this.setState({
+          markers: response.body,
+          center: response.body[0].position,
+        });
+      } else {
+        this.setState({
+          markers: [],
+        });
+      }
+    });
+  }
+
   render() {
-    console.log(styles);
     return (
       <div className='wrapper'>
          <div className='menu'>
           <h2>DataViz: KISS</h2>
           <h3>(Keep It Simple Stupid)</h3>
           <hr/>
-          <ul style={{flex: 1}}>
-            <li>Upload CSV</li>
-            <li>Get Geolocalized data!</li>
-          </ul>
+          <UploadForm onUpload={this.onUpload}/>
+          Get Geolocalized data!
          </div>
-         <Map />
+         <Map markers={this.state.markers} center={this.state.center}/>
        </div>
     );
   }

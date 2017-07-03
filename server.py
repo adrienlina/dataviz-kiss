@@ -1,4 +1,5 @@
 import os
+import csv
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -37,16 +38,21 @@ def upload_file():
     return 'Ok', 200
 
 
-@app.route('/')
-def hello_world():
-    markers = [{
-        'name': 'Sicara',
-        'title': 'Sicara',
-        'position': {
-            'lat': 48.8828993,
-            'lng': 29.320023
-        },
-    }]
+@app.route('/markers/<filename>')
+def markers_info(filename):
+    with open('%s/%s' % (UPLOAD_FOLDER, filename), 'r') as csvfile:
+        dialect = csv.Sniffer().sniff(csvfile.read(1024))
+        csvfile.seek(0)
+        reader = csv.reader(csvfile, dialect)
+        markers = [{
+            'name': row[0],
+            'title': row[1],
+            'position': {
+                'lat': row[2],
+                'lng': row[3]
+            },
+        } for index, row in enumerate(reader) if index > 0]
+
     return jsonify(markers)
 
 

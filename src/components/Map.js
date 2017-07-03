@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Map, { GoogleApiWrapper, InfoWindow } from 'google-maps-react';
-import request from 'superagent';
+
 import Marker from '../imports/Marker.js';
 
 const sicara = { lat: 48.8828993, lng: 2.320023 };
@@ -37,31 +37,15 @@ export class MapContainer extends React.Component {
     }
   }
 
-  componentDidMount() {
-    request.get('http://127.0.0.1:5000/')
-    .then(response => {
-      if (response.body.length) {
-        this.setState({
-          markers: response.body,
-          center: response.body[0].position,
-        });
-      } else {
-        this.setState({
-          markers: [],
-        });
-      }
-    });
-  }
-
   render() {
     return (
       <Map
         google={this.props.google}
         initialCenter={sicara}
-        center={this.state.center}
+        center={this.props.center}
         zoom={4}
       >
-        {this.state.markers.map(marker => {
+        {this.props.markers.map(marker => {
           return (
             <Marker
               key={marker.title}
