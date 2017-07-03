@@ -38,14 +38,16 @@ export class App extends React.Component {
   render() {
     return (
       <div className='wrapper'>
-         <div className='menu'>
+        <div className='menu'>
           <h2>DataViz: KISS</h2>
           <h3>(Keep It Simple Stupid)</h3>
           <hr/>
-          <UploadForm onUpload={this.onUpload}/>
-          Get Geolocalized data!
-         </div>
-         <Map markers={this.state.markers} center={this.state.center}/>
+          <div className="upload">
+            <UploadForm onUpload={this.onUpload}/>
+            And enjoy the new markers!
+          </div>
+        </div>
+        <Map markers={this.state.markers} center={this.state.center}/>
        </div>
     );
   }

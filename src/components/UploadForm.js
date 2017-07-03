@@ -25,8 +25,11 @@ class UploadForm extends React.Component {
   render() {
     const mimeTypes = 'text/comma-separated-values,text/csv,application/csv,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext'
     return (
-      <Dropzone accept={mimeTypes} onDropAccepted={this.onDropAccepted}>
-        Upload your CSV
+      <Dropzone className="dropzone" saccept={mimeTypes} onDropAccepted={this.onDropAccepted}>
+        <p>Upload your CSV</p>
+        <p>It should have two columns:</p>
+        <code>Name;Address</code> <br/>
+        <code>Sicara;48 Blvrd Batignoles Paris</code>
       </Dropzone>
     )
   }

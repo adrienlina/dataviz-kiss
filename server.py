@@ -6,7 +6,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = '/tmp/dataviz-kiss'
+UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads')
 ALLOWED_EXTENSIONS = set(['csv'])
 
 app = Flask(__name__)
@@ -63,7 +63,7 @@ def markers_info(filename):
             }
 
             place = {
-                'title': row[0],
+                'name': row[0],
                 'position': position_best_guess
             }
 
@@ -75,4 +75,6 @@ def markers_info(filename):
 
 
 if __name__ == '__main__':
+    if not os.path.exists(UPLOAD_FOLDER):
+        os.makedirs(UPLOAD_FOLDER)
     app.run()

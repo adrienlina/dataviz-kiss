@@ -43,14 +43,15 @@ export class MapContainer extends React.Component {
         google={this.props.google}
         initialCenter={sicara}
         center={this.props.center}
-        zoom={4}
+        className="map"
+        zoom={13}
       >
         {this.props.markers.map(marker => {
           return (
             <Marker
               key={marker.title}
               google={this.props.google}
-              title={marker.title}
+              title={marker.name}
               name={marker.name}
               position={marker.position}
               onClick={this.onMarkerClick}
